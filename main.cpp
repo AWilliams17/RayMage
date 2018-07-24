@@ -1,6 +1,7 @@
 #include <iostream>
 #include "SDL.h"
 #include "player.h"
+#include "instantcg.h"
 
 //ToDo: Don't hardcode these
 const int SCREEN_WIDTH = 640;
@@ -43,6 +44,7 @@ int main() {
     SDL_Window* gWindow = nullptr; //Window to render to
     SDL_Surface* gScreenSurface = nullptr; //Surface contained by the window
 
+
     double currFrameTime = 0;
     double prevFrameTime = 0;
 
@@ -52,9 +54,12 @@ int main() {
         printf("Failed to initialize RayMage.\n");
     }
     else{
+        SDL_Renderer *renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
         //Start handling the game loop
         SDL_Event e; //Event queue
         while (game_loop){
+
             while( SDL_PollEvent( &e ) != 0 ){ //Grab most recent event in queue; process it.
                 if( e.type == SDL_QUIT ) {
                     game_loop = false;
