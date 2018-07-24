@@ -6,6 +6,6 @@ set(CMAKE_CXX_STANDARD 11)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
-add_executable(RayMage main.cpp test_map.h player.cpp player.h)
+add_executable(RayMage main.cpp test_map.h)
 
 target_link_libraries(RayMage ${SDL2_LIBRARIES})

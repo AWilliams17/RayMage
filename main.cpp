@@ -1,13 +1,12 @@
 #include <iostream>
 #include "SDL.h"
 #include "player.h"
-#include "instantcg.h"
 
 //ToDo: Don't hardcode these
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
 
-int init(SDL_Window** sdlWindow, SDL_Surface** sdlContainer){
+int init(SDL_Window** sdlWindow, SDL_Surface** sdlContainer, SDL_Renderer** sdlRenderer){
     //Set up SDL and create the window.
     int success = 0;
 
@@ -20,7 +19,15 @@ int init(SDL_Window** sdlWindow, SDL_Surface** sdlContainer){
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
         }
         else {
+
             *sdlContainer = SDL_GetWindowSurface(*sdlWindow); //Grab the surface contained by the window
+            *sdlRenderer = SDL_CreateRenderer(*sdlWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+            if(*sdlRenderer == nullptr) {
+                SDL_DestroyWindow(*sdlWindow);
+                printf("Couldn't create SDL renderer: %s", SDL_GetError());
+                SDL_Quit();
+                return 1;
+            }
             success = 1;
         }
     }
@@ -43,18 +50,16 @@ void close(SDL_Window** sdlWindow, SDL_Surface** sdlContainer){
 int main() {
     SDL_Window* gWindow = nullptr; //Window to render to
     SDL_Surface* gScreenSurface = nullptr; //Surface contained by the window
-
-
-    double currFrameTime = 0;
-    double prevFrameTime = 0;
-
+    SDL_Renderer* gRenderer = nullptr; //The renderer
     bool game_loop = true;
 
-    if (init(&gWindow, &gScreenSurface) == 0){
+    if (init(&gWindow, &gScreenSurface, &gRenderer) == 0){
         printf("Failed to initialize RayMage.\n");
     }
     else{
-        SDL_Renderer *renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
+        SDL_RenderClear(gRenderer);
+        SDL_RenderPresent(gRenderer);
 
         //Start handling the game loop
         SDL_Event e; //Event queue
