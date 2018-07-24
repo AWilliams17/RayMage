@@ -10,6 +10,11 @@
  *   "This performs a fast blit from the source surface to the destination surface."
  *
  *  So using ray casting, use these methods to figure out where to draw rectangles, and blit them using blitsurface?
+ *
+ *  or it's SDL_RenderFillRect(),
+ *  "fill a rectangle on the current rendering target with the drawing color."
+ *  and "https://wiki.libsdl.org/SDL_SetRenderDrawColor"
+ *  "set the color used for drawing operations (Rect, Line and Clear)."
  */
 
 
@@ -75,6 +80,17 @@ int main() {
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         SDL_RenderClear(gRenderer);
         SDL_RenderPresent(gRenderer);
+
+        SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+        SDL_Rect rect = { 0, 0, 100, 50 };
+
+        SDL_RenderFillRect(gRenderer, &rect);
+        SDL_RenderPresent(gRenderer);
+        SDL_Delay(5000);
+
+
+        game_loop = false;
+
         //Start handling the game loop
         SDL_Event e; //Event queue
         while (game_loop){
