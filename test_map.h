@@ -7,8 +7,11 @@
 
 #endif //RAYMAGE_TEST_MAP_H
 
+#define MAPX 15
+#define MAPY 15
 
-int testMapGrid[15][15] = { //Where 1 == Wall, 0 == Walkable space
+//Yes, this is bad practice, but I don't want it in main.cpp
+int testMapGrid[MAPX][MAPY] = { //Where 1 == Wall, 0 == Walkable space
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},

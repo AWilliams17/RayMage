@@ -1,5 +1,6 @@
 #include <iostream>
 #include "SDL.h"
+#include "test_map.h"
 
 //ToDo: Don't hardcode these
 const int SCREEN_WIDTH = 640;
@@ -41,6 +42,10 @@ void close(SDL_Window** sdlWindow, SDL_Surface** sdlContainer){
 int main() {
     SDL_Window* gWindow = nullptr; //Window to render to
     SDL_Surface* gScreenSurface = nullptr; //Surface contained by the window
+
+    double currFrameTime = 0;
+    double prevFrameTime = 0;
+
     bool game_loop = true;
 
     if (init(&gWindow, &gScreenSurface) == 0){
