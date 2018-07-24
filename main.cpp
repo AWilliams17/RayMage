@@ -1,6 +1,6 @@
 #include <iostream>
 #include "SDL.h"
-#include "test_map.h"
+#include "player.h"
 
 //ToDo: Don't hardcode these
 const int SCREEN_WIDTH = 640;
