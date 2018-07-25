@@ -91,34 +91,25 @@ int main() {
 
         //Start handling the game loop
         SDL_Event e; //Event queue
+        const Uint8 *keys = SDL_GetKeyboardState(NULL); //Is the key held down?
         while (game_loop){
-            //Minimap in the upper right corner
-            for (int i = 0; i < MAPX; i++){
-                for (int j = 0; j < MAPY; j++){
-                    if (testMapGrid[i][j] != 0){
-                        rect = SDL_Rect{i * 4, j * 4, 3, 3};
-
-                        int mapTile = testMapGrid[i][j];
-
-                        if (mapTile == 1){
-                            SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0);
-                        } else if (mapTile == 2){
-                            SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
-                        } else{
-                            SDL_SetRenderDrawColor(gRenderer, 0, 0, 255, 0);
-                        }
-
-                        SDL_RenderFillRect(gRenderer, &rect);
-                    }
-                }
-            }
-
             while( SDL_PollEvent( &e ) != 0 ){ //Grab most recent event in queue; process it.
                 if( e.type == SDL_QUIT ) {
                     game_loop = false;
                 }
+                if (keys[SDL_SCANCODE_W]){
+                    std::cout << "W is being pressed\n";
+                }
+                if (keys[SDL_SCANCODE_S]){
+                    std::cout << "S is being pressed\n";
+                }
+                if (keys[SDL_SCANCODE_A]){
+                    std::cout << "A is being pressed\n";
+                }
+                if (keys[SDL_SCANCODE_D]){
+                    std::cout << "D is being pressed\n";
+                }
             }
-
             SDL_RenderPresent(gRenderer);
         }
     }
