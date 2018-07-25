@@ -95,10 +95,10 @@ int main() {
             //Minimap in the upper right corner
             for (int i = 0; i < MAPX; i++){
                 for (int j = 0; j < MAPY; j++){
-                    if (testMapGrid[j][i] != 0){
+                    if (testMapGrid[i][j] != 0){
                         rect = SDL_Rect{i * 4, j * 4, 3, 3};
 
-                        int mapTile = testMapGrid[j][i];
+                        int mapTile = testMapGrid[i][j];
 
                         if (mapTile == 1){
                             SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0);
