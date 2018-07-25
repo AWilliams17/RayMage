@@ -21,6 +21,7 @@
 #include <iostream>
 #include "SDL.h"
 #include "test_map.h"
+#include <string>
 
 //ToDo: Don't hardcode these
 const int SCREEN_WIDTH = 640;
@@ -81,24 +82,44 @@ int main() {
         SDL_RenderClear(gRenderer);
         SDL_RenderPresent(gRenderer);
 
-        SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-        SDL_Rect rect = { 0, 0, 100, 50 };
 
+        SDL_Rect rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
         SDL_RenderFillRect(gRenderer, &rect);
         SDL_RenderPresent(gRenderer);
-        SDL_Delay(5000);
 
-
-        game_loop = false;
+        testMapGrid[6][8] = 5; //Player location (test)
 
         //Start handling the game loop
         SDL_Event e; //Event queue
         while (game_loop){
+            //Minimap in the upper right corner
+            for (int i = 0; i < MAPX; i++){
+                for (int j = 0; j < MAPY; j++){
+                    if (testMapGrid[j][i] != 0){
+                        rect = SDL_Rect{i * 4, j * 4, 3, 3};
+
+                        int mapTile = testMapGrid[j][i];
+
+                        if (mapTile == 1){
+                            SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0);
+                        } else if (mapTile == 2){
+                            SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+                        } else{
+                            SDL_SetRenderDrawColor(gRenderer, 0, 0, 255, 0);
+                        }
+
+                        SDL_RenderFillRect(gRenderer, &rect);
+                    }
+                }
+            }
+
             while( SDL_PollEvent( &e ) != 0 ){ //Grab most recent event in queue; process it.
                 if( e.type == SDL_QUIT ) {
                     game_loop = false;
                 }
             }
+
+            SDL_RenderPresent(gRenderer);
         }
     }
 
