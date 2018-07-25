@@ -71,52 +71,59 @@ void close(SDL_Window** sdlWindow, SDL_Surface** sdlContainer){
 
 int main() {
     bool game_loop = true;
-    SDL_Window* gWindow = nullptr; //Window to render to
-    SDL_Surface* gScreenSurface = nullptr; //Surface contained by the window
-    SDL_Renderer* gRenderer = nullptr; //The renderer
+    SDL_Window *gWindow = nullptr; //Window to render to
+    SDL_Surface *gScreenSurface = nullptr; //Surface contained by the window
+    SDL_Renderer *gRenderer = nullptr; //The renderer
 
-    if (init(&gWindow, &gScreenSurface, &gRenderer) == 0){
+    if (init(&gWindow, &gScreenSurface, &gRenderer) == 0) {
         printf("Failed to initialize RayMage.\n");
-    }
-    else{
+    } else {
         //Set the renderer to initially be black, and then output its state.
         SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 255);
         SDL_RenderClear(gRenderer);
         SDL_RenderPresent(gRenderer);
 
-        int posX = 9, posY = 7;    // Initial Player position on the grid
+        // Initial Player position on the grid
+        int pPosX = 4;
+        int pPosY = 8;
+
+        // Initial player direction
+        int pDirX = 0;
+        int pDirY = 0;
+
+        // Initial planes
+        double planeX = 0;
+        double planeY = 0.8;
 
         //Start handling the game loop
         SDL_Event e; //Event queue
         const Uint8 *keys = SDL_GetKeyboardState(NULL); //Is the key held down?
-        while (game_loop){
-            testMapGrid[posX][posY] = 5; // Set player location on grid to have value of 5
+        while (game_loop) {
+            testMapGrid[pPosX][pPosY] = 5; // Set player location on grid to have value of 5
 
+            for (int x = 0; x < SCREEN_WIDTH; x++) { // Cast 640 rays
 
-            //SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-            //SDL_RenderDrawLine(gRenderer, x, drawStart, x, drawEnd);
-            //SDL_RenderPresent(gRenderer);
+            }
 
-            while( SDL_PollEvent( &e ) != 0 ){ //Grab most recent event in queue; process it.
-                if( e.type == SDL_QUIT ) {
+            while (SDL_PollEvent(&e) != 0) { //Grab most recent event in queue; process it.
+                if (e.type == SDL_QUIT) {
                     game_loop = false;
                 }
-                if (keys[SDL_SCANCODE_W]){
+                if (keys[SDL_SCANCODE_W]) {
                     std::cout << "W is being pressed\n";
                 }
-                if (keys[SDL_SCANCODE_S]){
+                if (keys[SDL_SCANCODE_S]) {
                     std::cout << "S is being pressed\n";
                 }
-                if (keys[SDL_SCANCODE_A]){
+                if (keys[SDL_SCANCODE_A]) {
                     std::cout << "A is being pressed\n";
                 }
-                if (keys[SDL_SCANCODE_D]){
+                if (keys[SDL_SCANCODE_D]) {
                     std::cout << "D is being pressed\n";
                 }
             }
         }
     }
-
     close(&gWindow, &gScreenSurface);
     return 0;
 }
