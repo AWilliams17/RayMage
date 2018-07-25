@@ -22,10 +22,12 @@
 #include "SDL.h"
 #include "test_map.h"
 #include <string>
+#include <math.h>
+#include "cmath"
 
 //ToDo: Don't hardcode these
 const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_HEIGHT = 460;
 
 int init(SDL_Window** sdlWindow, SDL_Surface** sdlContainer, SDL_Renderer** sdlRenderer){
     //Set up SDL and create the window.
@@ -82,17 +84,19 @@ int main() {
         SDL_RenderClear(gRenderer);
         SDL_RenderPresent(gRenderer);
 
-
-        SDL_Rect rect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
-        SDL_RenderFillRect(gRenderer, &rect);
-        SDL_RenderPresent(gRenderer);
-
-        testMapGrid[6][8] = 5; //Player location (test)
+        int posX = 9, posY = 7;    // Initial Player position on the grid
 
         //Start handling the game loop
         SDL_Event e; //Event queue
         const Uint8 *keys = SDL_GetKeyboardState(NULL); //Is the key held down?
         while (game_loop){
+            testMapGrid[posX][posY] = 5; // Set player location on grid to have value of 5
+
+
+            //SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            //SDL_RenderDrawLine(gRenderer, x, drawStart, x, drawEnd);
+            //SDL_RenderPresent(gRenderer);
+
             while( SDL_PollEvent( &e ) != 0 ){ //Grab most recent event in queue; process it.
                 if( e.type == SDL_QUIT ) {
                     game_loop = false;
@@ -110,7 +114,6 @@ int main() {
                     std::cout << "D is being pressed\n";
                 }
             }
-            SDL_RenderPresent(gRenderer);
         }
     }
 
