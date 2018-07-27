@@ -1,5 +1,4 @@
-#include <iostream>
-#include "SDL.h"
+#include "Engine/renderer.h"
 #include "test_map.h"
 
 int main() {
