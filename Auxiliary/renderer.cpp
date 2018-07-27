@@ -4,13 +4,27 @@
 
 #include "renderer.h"
 
-Renderer::Renderer() {
-    this->window = new SDL_Window;
-    this->renderer = new SDL_Renderer;
+
+SDLException::SDLException(const std::string& operation_desc)
+        : m_msg(std::string("Error occurred during operation: ") + operation_desc + " SDLError(): " + SDL_GetError())
+{}
+
+const char* SDLException::what() const throw(){
+    return m_msg.c_str();
 }
 
-int Renderer::init(const int WIDTH, const int HEIGHT, const bool FULL_SCREEN, const string WINDOW_TITLE) {
-
+Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT, const bool FULL_SCREEN) {
+    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+        throw SDLException("Failed to initialize the video subsystem.");
+    }
+    this->window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+    if (this->window == nullptr) {
+        throw SDLException("Failed to create window.");
+    }
+    this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (this->renderer == nullptr) {
+        throw SDLException("Failed to create renderer.");
+    }
 }
 
 int Renderer::terminate() {
