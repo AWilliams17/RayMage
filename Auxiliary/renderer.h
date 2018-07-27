@@ -6,22 +6,23 @@
 #define RAYMAGE_RENDERER_H
 
 #include "SDL.h"
-#include "iostream"
-#include <string>
+#include "string"
 
 typedef std::string string;
 
-namespace rendering_auxiliary {
-    int init(SDL_Window *window, SDL_Renderer *renderer, const int WIDTH, const int HEIGHT, const bool FULL_SCREEN, const string WINDOW_TITLE);
-    int terminate(SDL_Window *window, SDL_Renderer *renderer);
-    int clear_screen(SDL_Renderer *renderer);
-    int redraw(SDL_Renderer *renderer);
-}
-
-namespace rendering_2D {
-    int drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2);
-    int drawLineHorizontal(SDL_Renderer *renderer, int y, int x1, int x2);
-    int drawLineVertical(SDL_Renderer *renderer, int x, int y1, int y2);
-}
+class Renderer {
+    public:
+        Renderer();
+        int init(const int WIDTH, const int HEIGHT, const bool FULL_SCREEN, const string WINDOW_TITLE);
+        int terminate();
+        int clearScreen();
+        int redraw();
+        int drawLine(int x1, int y1, int x2, int y2);
+        int drawLineHorizontal(int y, int x1, int x2);
+        int drawLineVertical(int x, int y1, int y2);
+    private:
+        SDL_Window *window;
+        SDL_Renderer *renderer;
+};
 
 #endif //RAYMAGE_RENDERER_H

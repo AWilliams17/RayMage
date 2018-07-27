@@ -4,35 +4,35 @@
 
 #include "renderer.h"
 
-namespace rendering_auxiliary {
-    int init(SDL_Window *window, SDL_Renderer *renderer,
-                const int WIDTH, const int HEIGHT, const bool FULL_SCREEN, const string WINDOW_TITLE) {
-
-    }
-
-    int terminate(SDL_Window *window, SDL_Renderer *renderer) {
-
-    }
-
-    int clearScreen(SDL_Renderer *renderer) {
-
-    }
-
-    int redraw(SDL_Renderer *renderer) {
-
-    }
+Renderer::Renderer() {
+    this->window = new SDL_Window;
+    this->renderer = new SDL_Renderer;
 }
 
-namespace rendering_2D {
-    int drawLine(SDL_Renderer *renderer, int x1, int y1, int x2, int y2) {
+int Renderer::init(const int WIDTH, const int HEIGHT, const bool FULL_SCREEN, const string WINDOW_TITLE) {
 
-    }
+}
 
-    int drawLineHorizontal(SDL_Renderer *renderer, int y, int x1, int x2) {
+int Renderer::terminate() {
 
-    }
+}
 
-    int drawLineVertical(SDL_Renderer *renderer, int x, int y1, int y2) {
+int Renderer::clearScreen() {
 
-    }
+}
+
+int Renderer::redraw() {
+
+}
+
+int Renderer::drawLine(int x1, int y1, int x2, int y2) {
+
+}
+
+int Renderer::drawLineHorizontal(int y, int x1, int x2) {
+
+}
+
+int Renderer::drawLineVertical(int x, int y1, int y2) {
+
 }
