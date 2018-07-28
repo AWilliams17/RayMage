@@ -6,18 +6,22 @@
 
 
 SDLException::SDLException(const std::string& operation_desc)
-        : m_msg(std::string("Error occurred during operation: ") + operation_desc + " SDLError(): " + SDL_GetError())
-{}
+        : m_msg(std::string("Error occurred during operation: ") + operation_desc + " SDLError(): " + SDL_GetError()) {}
 
 const char* SDLException::what() const throw(){
     return m_msg.c_str();
 }
 
 Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT, const bool FULL_SCREEN) {
+    SDL_WindowFlags window_setting = SDL_WINDOW_SHOWN;
+    if (FULL_SCREEN) {
+        window_setting = SDL_WINDOW_FULLSCREEN_DESKTOP;
+    }
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         throw SDLException("Failed to initialize the video subsystem.");
     }
-    this->window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+    this->window = SDL_CreateWindow(WINDOW_TITLE.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, window_setting);
     if (this->window == nullptr) {
         throw SDLException("Failed to create window.");
     }
