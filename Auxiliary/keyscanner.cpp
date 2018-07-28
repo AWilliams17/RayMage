@@ -14,11 +14,12 @@ void KeyScanner::scanKeys() {
     this->keys = SDL_GetKeyboardState(NULL);
 }
 
-bool KeyScanner::isKeyDown(SDL_Keycode key) {
+// https://wiki.libsdl.org/CategoryKeyboard
+bool KeyScanner::isKeyDown(SDL_Keycode key) { // Key code == Maps to layout of keyboard; correlates with scan code.
     return (this->keys[SDL_GetScancodeFromKey(key)] != 0);
 }
 
-bool KeyScanner::isKeyDown(SDL_Scancode key) {
+bool KeyScanner::isKeyDown(SDL_Scancode key) { // Scan code == Physical location of key on keyboard.
     return (this->keys[key] != 0);
 }
 

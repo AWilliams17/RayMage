@@ -48,7 +48,6 @@ int Renderer::terminate() {
 int Renderer::clearScreen() {
     SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
     SDL_RenderClear(this->renderer);
-    SDL_RenderPresent(this->renderer);
 }
 
 int Renderer::redraw() {
