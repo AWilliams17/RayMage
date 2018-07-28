@@ -13,6 +13,8 @@ const char* SDLException::what() const throw(){
 }
 
 Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT, const bool FULL_SCREEN) {
+    this->windowWidth = WIDTH;
+    this->windowHeight = HEIGHT;
     SDL_WindowFlags window_setting = SDL_WINDOW_SHOWN;
     if (FULL_SCREEN) {
         window_setting = SDL_WINDOW_FULLSCREEN_DESKTOP;
@@ -32,15 +34,19 @@ Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT,
 }
 
 int Renderer::terminate() {
-
+    SDL_DestroyRenderer(this->renderer);
+    SDL_DestroyWindow(this->window);
+    SDL_Quit();
 }
 
 int Renderer::clearScreen() {
-
+    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(this->renderer);
+    SDL_RenderPresent(this->renderer);
 }
 
 int Renderer::redraw() {
-
+    SDL_RenderPresent(this->renderer);
 }
 
 int Renderer::drawLine(int x1, int y1, int x2, int y2) {
