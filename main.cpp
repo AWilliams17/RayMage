@@ -5,7 +5,7 @@
 int main() {
     bool game_loop = true;
     KeyScanner keyScanner;
-    
+
     Renderer renderer("RayMage", 640, 480, false);
     renderer.clearScreen();
 

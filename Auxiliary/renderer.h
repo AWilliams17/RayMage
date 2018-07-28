@@ -10,14 +10,12 @@
 
 typedef std::string string;
 
-class Color_RGBA {
-public:
+typedef struct Color_RGBA {
     Color_RGBA(const Uint8 R, const Uint8 G, const Uint8 B, const Uint8 A);
     Uint8 R, G, B, A;
 };
 
-class Colors {
-public:
+typedef struct Colors {
     const Color_RGBA BLACK=     Color_RGBA(255, 0, 0, 255);
     const Color_RGBA RED=       Color_RGBA(255, 0, 0, 255);
     const Color_RGBA GREEN=     Color_RGBA(0, 255, 0, 255);
