@@ -3,7 +3,12 @@
 //
 
 #include "renderer.h"
-
+Color_RGBA::Color_RGBA(const Uint8 R, const Uint8 G, const Uint8 B, const Uint8 A) {
+    this->R = R;
+    this->G = G;
+    this->B = B;
+    this->A = A;
+}
 
 SDLException::SDLException(const std::string& operation_desc)
         : m_msg(std::string("Error occurred during operation: ") + operation_desc + " SDLError(): " + SDL_GetError()) {}
@@ -16,6 +21,7 @@ Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT,
     this->windowWidth = WIDTH;
     this->windowHeight = HEIGHT;
     SDL_WindowFlags window_setting = SDL_WINDOW_SHOWN;
+
     if (FULL_SCREEN) {
         window_setting = SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
@@ -49,20 +55,17 @@ int Renderer::redraw() {
     SDL_RenderPresent(this->renderer);
 }
 
-int Renderer::drawLine(int x1, int y1, int x2, int y2) {
-    // TODO: Custom colors
-    SDL_SetRenderDrawColor(this->renderer, 255, 0, 0, 255);
-    SDL_RenderDrawLine(this->renderer, x1, y1, x2, y2);
+int Renderer::drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA color) {
+    SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
+    SDL_RenderDrawLine(this->renderer, X1, Y1, X2, Y2);
 }
 
-int Renderer::drawLineHorizontal(int y, int x1, int x2) {
-    // TODO: Custom colors
-    SDL_SetRenderDrawColor(this->renderer, 0, 255, 0, 255);
-    SDL_RenderDrawLine(this->renderer, x1, y, x2, y);
+int Renderer::drawLineHorizontal(int Y, int X1, int X2, Color_RGBA color) {
+    SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
+    SDL_RenderDrawLine(this->renderer, X1, Y, X2, Y);
 }
 
-int Renderer::drawLineVertical(int x, int y1, int y2) {
-    // TODO: Custom colors
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 255, 255);
-    SDL_RenderDrawLine(this->renderer, x, y1, x, y2);
+int Renderer::drawLineVertical(int X, int Y1, int Y2, Color_RGBA color) {
+    SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
+    SDL_RenderDrawLine(this->renderer, X, Y1, X, Y2);
 }
