@@ -7,6 +7,7 @@
 
 KeyScanner::KeyScanner() {
     this->e = {0};
+    this->keys = nullptr;
 }
 
 void KeyScanner::scanKeys() {
@@ -19,4 +20,12 @@ bool KeyScanner::isKeyDown(SDL_Keycode key) {
 
 bool KeyScanner::isKeyDown(SDL_Scancode key) {
     return (this->keys[key] != 0);
+}
+
+bool KeyScanner::exitBtnPressed() {
+    while (SDL_PollEvent(&this->e)) {
+        if (this->e.type == SDL_QUIT) {
+            return true;
+        }
+    }
 }

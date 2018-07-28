@@ -13,6 +13,7 @@ public:
     void scanKeys();
     bool isKeyDown(SDL_Keycode key);
     bool isKeyDown(SDL_Scancode key);
+    bool exitBtnPressed();
 private:
     SDL_Event e;
     const Uint8 *keys;

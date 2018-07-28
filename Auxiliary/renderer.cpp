@@ -55,6 +55,7 @@ int Renderer::redraw() {
     SDL_RenderPresent(this->renderer);
 }
 
+//ToDo: More shapes
 int Renderer::drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA color) {
     SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
     SDL_RenderDrawLine(this->renderer, X1, Y1, X2, Y2);
