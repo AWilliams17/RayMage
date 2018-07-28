@@ -50,13 +50,19 @@ int Renderer::redraw() {
 }
 
 int Renderer::drawLine(int x1, int y1, int x2, int y2) {
-
+    // TODO: Custom colors
+    SDL_SetRenderDrawColor(this->renderer, 255, 0, 0, 255);
+    SDL_RenderDrawLine(this->renderer, x1, y1, x2, y2);
 }
 
 int Renderer::drawLineHorizontal(int y, int x1, int x2) {
-
+    // TODO: Custom colors
+    SDL_SetRenderDrawColor(this->renderer, 0, 255, 0, 255);
+    SDL_RenderDrawLine(this->renderer, x1, y, x2, y);
 }
 
 int Renderer::drawLineVertical(int x, int y1, int y2) {
-
+    // TODO: Custom colors
+    SDL_SetRenderDrawColor(this->renderer, 0, 0, 255, 255);
+    SDL_RenderDrawLine(this->renderer, x, y1, x, y2);
 }
