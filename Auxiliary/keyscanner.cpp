@@ -7,10 +7,6 @@
 
 KeyScanner::KeyScanner() {
     this->e = {0};
-    this->keys = nullptr;
-}
-
-void KeyScanner::scanKeys() {
     this->keys = SDL_GetKeyboardState(NULL);
 }
 
@@ -20,7 +16,7 @@ bool KeyScanner::isKeyDown(SDL_Keycode key) { // Key code == Maps to layout of k
 }
 
 bool KeyScanner::isKeyDown(SDL_Scancode key) { // Scan code == Physical location of key on keyboard.
-    return (this->keys[key] != 0);
+    return (this->keys[key]);
 }
 
 bool KeyScanner::exitBtnPressed() {

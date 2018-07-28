@@ -8,6 +8,9 @@
 
 int main() {
     bool game_loop = true;
+    double currTime = 0;
+    double oldTime = 0;
+
     KeyScanner keyScanner;
 
     Renderer renderer("RayMage", SCREEN_WIDTH, SCREEN_HEIGHT, false);
@@ -15,9 +18,7 @@ int main() {
 
     Player player = Player(22, 12, -1, 0, 0, 0.66);
 
-    while (game_loop) {
-        keyScanner.scanKeys();
-
+    while (game_loop) { // pretty much all from https://lodev.org/cgtutor/raycasting.html#Untextured_Raycaster_
         for(int x = 0; x < SCREEN_WIDTH; x++)
         {
             Ray ray = Ray(SCREEN_WIDTH);
@@ -121,13 +122,51 @@ int main() {
             renderer.drawLineVertical(x, drawStart, drawEnd, color);
 
         }
+        oldTime = currTime;
+        currTime = SDL_GetTicks();
+
+        double frameTime = (currTime - oldTime) / 1000.0;
+        int FPS = (int)(1.0 / frameTime);
+
+        renderer.drawText("FPS:", 0, 0, 0, 0, renderer.colors.BLUE);
+        renderer.drawText(std::to_string(FPS), 0, 0, 42, 0, renderer.colors.YELLOW);
+        renderer.redraw();
+        renderer.clearScreen();
+
+        // Movement speed is constant
+        double movementSpeed = frameTime * 5.0;
+        double rotationSpeed = frameTime * 3.0;
 
         if (keyScanner.exitBtnPressed()){
             game_loop = false;
+        } else {
+            if (keyScanner.isKeyDown(SDL_SCANCODE_W)) {
+                // Add player's DirX to PosX,
+                // Add player's DirY to PosY
+                // (assume DirX and DirY are normalized vectors - length is 1)
+                // If new position is inside wall, don't move.
+                if(testMapGrid[int(player.posX + player.dirX * movementSpeed)][int(player.posY)] == false) player.posX += player.dirX * movementSpeed;
+                if(testMapGrid[int(player.posX)][int(player.posY + player.dirY * movementSpeed)] == false) player.posY += player.dirY * movementSpeed;
+            } else if (keyScanner.isKeyDown(SDLK_s)) { // Same as above, only subtraction.
+                if(testMapGrid[int(player.posX - player.dirX * movementSpeed)][int(player.posY)] == false) player.posX -= player.dirX * movementSpeed;
+                if(testMapGrid[int(player.posX)][int(player.posY - player.dirY * movementSpeed)] == false) player.posY -= player.dirY * movementSpeed;
+            } else if (keyScanner.isKeyDown(SDLK_d)) {
+                //Rotate the direction AND plane vector
+                double oldDirX = player.dirX;
+                player.dirX = player.dirX * cos(-rotationSpeed) - player.dirY * sin(-rotationSpeed);
+                player.dirY = oldDirX * sin(-rotationSpeed) + player.dirY * cos(-rotationSpeed);
+                double oldPlaneX = player.planeX;
+                player.planeX = player.planeX * cos(-rotationSpeed) - player.planeY * sin(-rotationSpeed);
+                player.planeY = oldPlaneX * sin(-rotationSpeed) + player.planeY * cos(-rotationSpeed);
+            } else if (keyScanner.isKeyDown(SDLK_a)) {
+                double oldDirX = player.dirX;
+                player.dirX = player.dirX * cos(rotationSpeed) - player.dirY * sin(rotationSpeed);
+                player.dirY = oldDirX * sin(rotationSpeed) + player.dirY * cos(rotationSpeed);
+                double oldPlaneX = player.planeX;
+                player.planeX = player.planeX * cos(rotationSpeed) - player.planeY * sin(rotationSpeed);
+                player.planeY = oldPlaneX * sin(rotationSpeed) + player.planeY * cos(rotationSpeed);
+            }
         }
-
-        renderer.redraw();
     }
-
     return 0;
 }

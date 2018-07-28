@@ -10,7 +10,6 @@
 class KeyScanner {
 public:
     KeyScanner();
-    void scanKeys();
     bool isKeyDown(SDL_Keycode key);
     bool isKeyDown(SDL_Scancode key);
     bool exitBtnPressed();

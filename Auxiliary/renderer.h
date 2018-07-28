@@ -6,6 +6,7 @@
 #define RAYMAGE_RENDERER_H
 
 #include "SDL.h"
+#include "SDL2/SDL_ttf.h"
 #include "string"
 
 typedef std::string string;
@@ -45,15 +46,17 @@ class Renderer {
 public:
     const Colors colors;
     Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT, const bool FULL_SCREEN);
-    int terminate();
-    int clearScreen();
-    int redraw();
-    int drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA color);
-    int drawLineHorizontal(int Y, int X1, int X2, Color_RGBA color);
-    int drawLineVertical(int X, int Y1, int Y2, Color_RGBA color);
+    void terminate();
+    void clearScreen();
+    void redraw();
+    void drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA color);
+    void drawLineHorizontal(int Y, int X1, int X2, Color_RGBA color);
+    void drawLineVertical(int X, int Y1, int Y2, Color_RGBA color);
+    void drawText(const string TEXT, int TEXT_W, int TEXT_H, int const TEXT_X, const int TEXT_Y, const Color_RGBA color);
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
+    TTF_Font *font;
     int windowWidth;
     int windowHeight;
 };

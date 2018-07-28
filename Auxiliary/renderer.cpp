@@ -3,6 +3,7 @@
 //
 
 #include "renderer.h"
+
 Color_RGBA::Color_RGBA(const Uint8 R, const Uint8 G, const Uint8 B, const Uint8 A) {
     this->R = R;
     this->G = G;
@@ -37,35 +38,56 @@ Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT,
     if (this->renderer == nullptr) {
         throw SDLException("Failed to create renderer.");
     }
+    TTF_Init();
+    this->font = TTF_OpenFont("../Gameplay.ttf", 15);
 }
 
-int Renderer::terminate() {
+void Renderer::terminate() {
     SDL_DestroyRenderer(this->renderer);
     SDL_DestroyWindow(this->window);
+    TTF_CloseFont(this->font);
     SDL_Quit();
+    TTF_Quit();
 }
 
-int Renderer::clearScreen() {
+void Renderer::clearScreen() {
     SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
     SDL_RenderClear(this->renderer);
 }
 
-int Renderer::redraw() {
+void Renderer::redraw() {
     SDL_RenderPresent(this->renderer);
 }
 
 //ToDo: More shapes
-int Renderer::drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA color) {
+void Renderer::drawLine(const int X1, const int Y1, const int X2, const int Y2, const Color_RGBA color) {
     SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
     SDL_RenderDrawLine(this->renderer, X1, Y1, X2, Y2);
 }
 
-int Renderer::drawLineHorizontal(int Y, int X1, int X2, Color_RGBA color) {
+void Renderer::drawLineHorizontal(const int Y, const int X1, const int X2, const Color_RGBA color) {
     SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
     SDL_RenderDrawLine(this->renderer, X1, Y, X2, Y);
 }
 
-int Renderer::drawLineVertical(int X, int Y1, int Y2, Color_RGBA color) {
+void Renderer::drawLineVertical(const int X, const int Y1, const int Y2, const Color_RGBA color) {
     SDL_SetRenderDrawColor(this->renderer, color.R, color.G, color.B, color.A);
     SDL_RenderDrawLine(this->renderer, X, Y1, X, Y2);
+}
+
+void Renderer::drawText(const string TEXT, int TEXT_W, int TEXT_H,
+                        int const TEXT_X, const int TEXT_Y, const Color_RGBA color) {
+
+    SDL_Color sdlColor = {color.R, color.G, color.B, color.A};
+
+    SDL_Surface *textSurface = TTF_RenderText_Solid(this->font, TEXT.c_str(), sdlColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(this->renderer, textSurface);
+    SDL_QueryTexture(textTexture, NULL, NULL, &TEXT_W, &TEXT_H);
+    SDL_Rect dstrect = {TEXT_X, TEXT_Y, TEXT_W, TEXT_H };
+
+    SDL_RenderCopy(this->renderer, textTexture, NULL, &dstrect);
+    //SDL_RenderPresent(this->renderer);
+
+    SDL_DestroyTexture(textTexture);
+    SDL_FreeSurface(textSurface);
 }
