@@ -49,17 +49,17 @@ public:
     void terminate();
     void clearScreen();
     void redraw();
-    void drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA color);
-    void drawLineHorizontal(int Y, int X1, int X2, Color_RGBA color);
-    void drawLineVertical(int X, int Y1, int Y2, Color_RGBA color);
-    void drawText(const string TEXT, int TEXT_W, int TEXT_H, int const TEXT_X, const int TEXT_Y, const Color_RGBA color);
+    void drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA COLOR);
+    void drawLineHorizontal(int Y, int X1, int X2, Color_RGBA COLOR);
+    void drawLineVertical(int X, int Y1, int Y2, Color_RGBA COLOR);
+    void drawText(const string TEXT, int TEXT_W, int TEXT_H, int const TEXT_X, const int TEXT_Y, const Color_RGBA COLOR);
     void drawRect(const SDL_Rect RECTANGLE_STRUCT, const Color_RGBA COLOR);
+    int windowWidth;
+    int windowHeight;
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     TTF_Font *font;
-    int windowWidth;
-    int windowHeight;
 };
 
 #endif //RAYMAGE_RENDERER_H

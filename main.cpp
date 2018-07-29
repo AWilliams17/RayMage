@@ -1,3 +1,9 @@
+// ToDo: Make it use textures.
+// ToDo: Make this more OOP. Clean the game_loop up, it's a mess.
+// ToDo: Proper SDL Error Handling.
+// ToDo: Better map format.
+// ToDo: ...Map editor? :D
+// ToDo: Strafing + Turning while moving.
 #include "player.h"
 #include "Auxiliary/renderer.h"
 #include "Auxiliary/keyscanner.h"
@@ -21,11 +27,11 @@ int main() {
 
     while (game_loop) { // pretty much all from https://lodev.org/cgtutor/raycasting.html#Untextured_Raycaster_
         testMapGrid[int(player.posX)][int(player.posY)] = 5;
-        for (int x = 0; x < SCREEN_WIDTH; x++) {
-            Ray ray = Ray(SCREEN_WIDTH);
+        for (int x = 0; x < renderer.windowWidth; x++) {
+            Ray ray = Ray(renderer.windowWidth);
 
             // Calculate initial ray position and direction
-            ray.cameraX = 2 * x / double(SCREEN_WIDTH) - 1; //x-coordinate in camera space
+            ray.cameraX = 2 * x / double(renderer.windowWidth) - 1; //x-coordinate in camera space
             ray.rayPosX = player.posX;
             ray.rayPosY = player.posY;
             ray.rayDirX = player.dirX + player.planeX * ray.cameraX;
@@ -88,16 +94,16 @@ int main() {
             }
 
             // Calculate the height of the line to draw on the screen
-            int lineHeight = abs(int(SCREEN_HEIGHT / ray.perpWallDist));
+            int lineHeight = abs(int(renderer.windowHeight / ray.perpWallDist));
 
             // Calculate the lowest and the highest pixel to fill in the current stripe
-            int drawStart = -lineHeight / 2 + SCREEN_HEIGHT / 2;
+            int drawStart = -lineHeight / 2 + renderer.windowHeight / 2;
             if (drawStart < 0) {
                 drawStart = 0;
             }
-            int drawEnd = lineHeight / 2 + SCREEN_HEIGHT / 2;
-            if (drawEnd >= SCREEN_HEIGHT) {
-                drawEnd = SCREEN_HEIGHT - 1;
+            int drawEnd = lineHeight / 2 + renderer.windowHeight / 2;
+            if (drawEnd >= renderer.windowHeight) {
+                drawEnd = renderer.windowHeight - 1;
             }
 
             // Choose the wall color
@@ -157,8 +163,8 @@ int main() {
         double frameTime = (currTime - oldTime) / 1000.0;
         int FPS = (int) (1.0 / frameTime);
 
-        renderer.drawText("FPS:", 0, 0, SCREEN_WIDTH - 67, 0, renderer.colors.BLUE);
-        renderer.drawText(std::to_string(FPS), 0, 0, SCREEN_WIDTH - 24, 0, renderer.colors.YELLOW);
+        renderer.drawText("FPS:", 0, 0, renderer.windowWidth - 67, 0, renderer.colors.BLUE);
+        renderer.drawText(std::to_string(FPS), 0, 0, renderer.windowWidth - 24, 0, renderer.colors.YELLOW);
         renderer.redraw();
         renderer.clearScreen();
 
@@ -174,7 +180,6 @@ int main() {
                 // Add player's DirY to PosY
                 // (assume DirX and DirY are normalized vectors - length is 1)
                 // If new position is inside wall, don't move.
-
                 testMapGrid[int(player.posX)][int(player.posY)] = 0;
                 if (testMapGrid[int(player.posX + player.dirX * movementSpeed)][int(player.posY)] == 0) {
                     player.posX += player.dirX * movementSpeed;
