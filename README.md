@@ -1,4 +1,4 @@
-**What is this**
+# **What is this**
 
 This is a simple Raycasting 'engine' written in C++ going off of the Lodev
 tutorial. I made it out of interest, and to play around with graphics. 
@@ -12,7 +12,7 @@ plain old colors.
 The raycasting code itself is mostly based off lodev's classic tutorial on
 raycasting, provided below.
 
-**Resources Used:**
+# **Resources Used:**
 
 Textures: https://opengameart.org/content/all-textures-for-the-labyrinth-of-the-fertile-void
 
@@ -26,4 +26,5 @@ http://www.playfuljs.com/a-first-person-engine-in-265-lines/
 
 https://gamedevhowto.blogspot.com/2017/09/a-diversion-raycast-engine-built-in-c.html
 
-**Images:**
+# **Preview:**
+![alt text](https://i.imgur.com/gf0whSE.png)
