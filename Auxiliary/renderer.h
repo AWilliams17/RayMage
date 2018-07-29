@@ -17,7 +17,7 @@ typedef struct Color_RGBA {
 };
 
 typedef struct Colors {
-    const Color_RGBA BLACK=     Color_RGBA(255, 0, 0, 255);
+    const Color_RGBA BLACK=     Color_RGBA(0, 0, 0, 255);
     const Color_RGBA RED=       Color_RGBA(255, 0, 0, 255);
     const Color_RGBA GREEN=     Color_RGBA(0, 255, 0, 255);
     const Color_RGBA BLUE=      Color_RGBA(0, 0, 255, 255);
@@ -53,6 +53,7 @@ public:
     void drawLineHorizontal(int Y, int X1, int X2, Color_RGBA color);
     void drawLineVertical(int X, int Y1, int Y2, Color_RGBA color);
     void drawText(const string TEXT, int TEXT_W, int TEXT_H, int const TEXT_X, const int TEXT_Y, const Color_RGBA color);
+    void drawRect(const SDL_Rect RECTANGLE_STRUCT, const Color_RGBA COLOR);
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;

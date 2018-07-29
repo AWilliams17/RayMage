@@ -17,10 +17,11 @@ int main() {
     renderer.clearScreen();
 
     Player player = Player(22, 12, -1, 0, 0, 0.66);
+    Color_RGBA color(0, 0, 0, 0);
 
     while (game_loop) { // pretty much all from https://lodev.org/cgtutor/raycasting.html#Untextured_Raycaster_
-        for(int x = 0; x < SCREEN_WIDTH; x++)
-        {
+        testMapGrid[int(player.posX)][int(player.posY)] = 5;
+        for (int x = 0; x < SCREEN_WIDTH; x++) {
             Ray ray = Ray(SCREEN_WIDTH);
 
             // Calculate initial ray position and direction
@@ -66,14 +67,14 @@ int main() {
                     ray.sideDistX += ray.deltaDistX;
                     ray.mapX += ray.stepX;
                     ray.side = 0;
-                }
-                else {
+                } else {
                     ray.sideDistY += ray.deltaDistY;
                     ray.mapY += ray.stepY;
                     ray.side = 1;
                 }
                 // Check if the ray has hit a wall. If it has, end the loop.
-                if (testMapGrid[ray.mapX][ray.mapY] > 0) {
+                int tileIndex = testMapGrid[ray.mapX][ray.mapY];
+                if (tileIndex > 0 && tileIndex != 5) {
                     ray.wallHit = 1;
                 }
             }
@@ -82,8 +83,7 @@ int main() {
             // (https://gamedev.stackexchange.com/questions/45295/raycasting-fisheye-effect-question?rq=1)
             if (ray.side == 0) {
                 ray.perpWallDist = fabs((ray.mapX - ray.rayPosX + (1 - ray.stepX) / 2) / ray.rayDirX);
-            }
-            else {
+            } else {
                 ray.perpWallDist = fabs((ray.mapY - ray.rayPosY + (1 - ray.stepY) / 2) / ray.rayDirY);
             }
 
@@ -101,14 +101,22 @@ int main() {
             }
 
             // Choose the wall color
-            Color_RGBA color(0, 0, 0, 0);
-            switch(testMapGrid[ray.mapX][ray.mapY])
-            {
-                case 1:  color = renderer.colors.RED;  break; //red
-                case 2:  color = renderer.colors.GREEN;  break; //green
-                case 3:  color = renderer.colors.BLUE;   break; //blue
-                case 4:  color = renderer.colors.WHITE;  break; //white
-                default: color = renderer.colors.YELLOW; break; //yellow
+            switch (testMapGrid[ray.mapX][ray.mapY]) {
+                case 1:
+                    color = renderer.colors.RED;
+                    break; //red
+                case 2:
+                    color = renderer.colors.GREEN;
+                    break; //green
+                case 3:
+                    color = renderer.colors.BLUE;
+                    break; //blueY
+                case 4:
+                    color = renderer.colors.WHITE;
+                    break; //white
+                default:
+                    color = renderer.colors.YELLOW;
+                    break; //yellow
             }
 
             // Give X and Y sides different brightnesses
@@ -120,16 +128,37 @@ int main() {
 
             // Draw the resulting line
             renderer.drawLineVertical(x, drawStart, drawEnd, color);
-
         }
+
+        for (int i = 0; i < MAPX; i++) {
+            for (int j = 0; j < MAPY; j++) {
+                SDL_Rect rect = SDL_Rect{i * 4, j * 4, 3, 3};
+
+                int mapTile = testMapGrid[j][i];
+
+                if (mapTile == 0) {
+                    color = renderer.colors.BLACK;
+                } else if (mapTile == 1) {
+                    color = renderer.colors.RED;
+                } else if (mapTile == 2) {
+                    color = renderer.colors.GREEN;
+                } else if (mapTile == 3) {
+                    color = renderer.colors.BLUE;
+                } else if (mapTile == 5) {
+                    color = renderer.colors.YELLOW;
+                }
+                renderer.drawRect(rect, color);
+            }
+        }
+
         oldTime = currTime;
         currTime = SDL_GetTicks();
 
         double frameTime = (currTime - oldTime) / 1000.0;
-        int FPS = (int)(1.0 / frameTime);
+        int FPS = (int) (1.0 / frameTime);
 
-        renderer.drawText("FPS:", 0, 0, 0, 0, renderer.colors.BLUE);
-        renderer.drawText(std::to_string(FPS), 0, 0, 42, 0, renderer.colors.YELLOW);
+        renderer.drawText("FPS:", 0, 0, SCREEN_WIDTH - 67, 0, renderer.colors.BLUE);
+        renderer.drawText(std::to_string(FPS), 0, 0, SCREEN_WIDTH - 24, 0, renderer.colors.YELLOW);
         renderer.redraw();
         renderer.clearScreen();
 
@@ -137,7 +166,7 @@ int main() {
         double movementSpeed = frameTime * 5.0;
         double rotationSpeed = frameTime * 3.0;
 
-        if (keyScanner.exitBtnPressed()){
+        if (keyScanner.exitBtnPressed()) {
             game_loop = false;
         } else {
             if (keyScanner.isKeyDown(SDL_SCANCODE_W)) {
@@ -145,11 +174,22 @@ int main() {
                 // Add player's DirY to PosY
                 // (assume DirX and DirY are normalized vectors - length is 1)
                 // If new position is inside wall, don't move.
-                if(testMapGrid[int(player.posX + player.dirX * movementSpeed)][int(player.posY)] == false) player.posX += player.dirX * movementSpeed;
-                if(testMapGrid[int(player.posX)][int(player.posY + player.dirY * movementSpeed)] == false) player.posY += player.dirY * movementSpeed;
+
+                testMapGrid[int(player.posX)][int(player.posY)] = 0;
+                if (testMapGrid[int(player.posX + player.dirX * movementSpeed)][int(player.posY)] == 0) {
+                    player.posX += player.dirX * movementSpeed;
+                }
+                if (testMapGrid[int(player.posX)][int(player.posY + player.dirY * movementSpeed)] == 0) {
+                    player.posY += player.dirY * movementSpeed;
+                }
             } else if (keyScanner.isKeyDown(SDLK_s)) { // Same as above, only subtraction.
-                if(testMapGrid[int(player.posX - player.dirX * movementSpeed)][int(player.posY)] == false) player.posX -= player.dirX * movementSpeed;
-                if(testMapGrid[int(player.posX)][int(player.posY - player.dirY * movementSpeed)] == false) player.posY -= player.dirY * movementSpeed;
+                testMapGrid[int(player.posX)][int(player.posY)] = 0;
+                if (testMapGrid[int(player.posX - player.dirX * movementSpeed)][int(player.posY)] == 0) {
+                    player.posX -= player.dirX * movementSpeed;
+                }
+                if (testMapGrid[int(player.posX)][int(player.posY + player.dirY * movementSpeed)] == 0) {
+                    player.posY -= player.dirY * movementSpeed;
+                }
             } else if (keyScanner.isKeyDown(SDLK_d)) {
                 //Rotate the direction AND plane vector
                 double oldDirX = player.dirX;

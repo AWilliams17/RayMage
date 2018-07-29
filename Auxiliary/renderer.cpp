@@ -91,3 +91,8 @@ void Renderer::drawText(const string TEXT, int TEXT_W, int TEXT_H,
     SDL_DestroyTexture(textTexture);
     SDL_FreeSurface(textSurface);
 }
+
+void Renderer::drawRect(const SDL_Rect RECTANGLE_STRUCT, const Color_RGBA COLOR) {
+    SDL_SetRenderDrawColor(this->renderer, COLOR.R, COLOR.G, COLOR.B, COLOR.A);
+    SDL_RenderFillRect(this->renderer, &RECTANGLE_STRUCT);
+}
