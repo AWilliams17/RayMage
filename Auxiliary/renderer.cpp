@@ -44,8 +44,8 @@ Renderer::Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT,
     if (this->renderer == nullptr) {
         throw SDLException("Failed to create renderer.");
     }
-    TTF_Init();
-    this->font = TTF_OpenFont("../Gameplay.ttf", 15);
+    TTF_Init(); // TODO: Throw an exception if this fails
+    this->font = TTF_OpenFont("../Gameplay.ttf", 15); // TODO: Don't hardcode the font
 }
 
 void Renderer::terminate() {
@@ -92,7 +92,6 @@ void Renderer::drawText(const string TEXT, int TEXT_W, int TEXT_H,
     SDL_Rect dstrect = {TEXT_X, TEXT_Y, TEXT_W, TEXT_H };
 
     SDL_RenderCopy(this->renderer, textTexture, NULL, &dstrect);
-    //SDL_RenderPresent(this->renderer);
 
     SDL_DestroyTexture(textTexture);
     SDL_FreeSurface(textSurface);
