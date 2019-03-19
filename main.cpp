@@ -52,6 +52,7 @@ int main() {
             }
         }
 
+        // FPS counter + crosshair
         oldTime = currTime;
         currTime = SDL_GetTicks();
 
@@ -60,6 +61,7 @@ int main() {
 
         renderer.drawText("FPS:", 0, 0, renderer.windowWidth - 67, 0, renderer.colors.BLUE);
         renderer.drawText(std::to_string(FPS), 0, 0, renderer.windowWidth - 24, 0, renderer.colors.YELLOW);
+        renderer.drawText("+", 0, 0, (renderer.windowWidth / 2), (renderer.windowHeight / 2), renderer.colors.TEAL);
         renderer.redraw();
         renderer.clearScreen();
 
