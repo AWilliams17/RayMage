@@ -11,7 +11,7 @@
 #include "../player.h"
 
 typedef struct Ray {
-    Ray(const int SCREEN_WIDTH);
+    Ray(int SCREEN_WIDTH);
     double cameraX;
     double rayDirX, rayDirY;
     double sideDistX, sideDistY;
@@ -27,7 +27,7 @@ typedef struct Ray {
 
 class RayCaster {
 public:
-    RayCaster(Renderer *RENDERER);
+    explicit RayCaster(Renderer *RENDERER);
     void RenderWalls(Player *player, int map[24][24]);
 private:
     Renderer *renderer = nullptr;

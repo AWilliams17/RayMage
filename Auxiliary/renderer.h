@@ -45,15 +45,15 @@ public:
 class Renderer {
 public:
     const Colors colors;
-    Renderer(const string WINDOW_TITLE, const int WIDTH, const int HEIGHT, const bool FULL_SCREEN);
+    Renderer(string WINDOW_TITLE, int WIDTH, int HEIGHT, bool FULL_SCREEN);
     void terminate();
     void clearScreen();
     void redraw();
-    void drawLine(const int X1, const int Y1, const int X2, const int Y2, Color_RGBA COLOR);
+    void drawLine(int X1, int Y1, int X2, int Y2, Color_RGBA COLOR);
     void drawLineHorizontal(int Y, int X1, int X2, Color_RGBA COLOR);
     void drawLineVertical(int X, int Y1, int Y2, Color_RGBA COLOR);
-    void drawText(const string TEXT, int TEXT_W, int TEXT_H, int const TEXT_X, const int TEXT_Y, const Color_RGBA COLOR);
-    void drawRect(const SDL_Rect RECTANGLE_STRUCT, const Color_RGBA COLOR);
+    void drawText(string TEXT, int TEXT_W, int TEXT_H, int TEXT_X, int TEXT_Y, Color_RGBA COLOR);
+    void drawRect(SDL_Rect RECTANGLE_STRUCT, Color_RGBA COLOR);
     int windowWidth;
     int windowHeight;
 private:

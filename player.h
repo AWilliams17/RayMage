@@ -6,8 +6,8 @@
 #define RAYMAGE_PLAYER_H
 
 typedef struct Player {
-    Player(const double POS_X, const double POS_Y, const double DIR_X,
-           const double DIR_Y, const double PLANE_X, const double PLANE_Y);
+    Player(double POS_X, double POS_Y, double DIR_X,
+           double DIR_Y, double PLANE_X, double PLANE_Y);
     double posX, posY;
     double dirX, dirY;
     double planeX, planeY;
