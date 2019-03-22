@@ -10,7 +10,7 @@
 #define MAPX 24
 #define MAPY 24
 
-//Yes, this is bad practice, but I don't want it in main.cpp
+// Yes, this is bad practice, but I don't want it in main.cpp
 int testMapGrid[MAPX][MAPY] = {
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},

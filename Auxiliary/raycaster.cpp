@@ -36,7 +36,6 @@ void RayCaster::RenderWalls(Player *player, int map[24][24]) {
         ray.deltaDistY = sqrt(1 + (ray.rayDirX * ray.rayDirX) / (ray.rayDirY * ray.rayDirY));
         ray.perpWallDist;
 
-
         // Calculate the stepX and initial sideDistX
         ray.stepX = 1;
         ray.sideDistX = (ray.mapX + 1.0 - ray.rayPosX) * ray.deltaDistX;
@@ -53,9 +52,9 @@ void RayCaster::RenderWalls(Player *player, int map[24][24]) {
             ray.sideDistY = (ray.rayPosY - ray.mapY) * ray.deltaDistY;
         }
 
-        //perform DDA (https://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
+        // Perform DDA (https://en.wikipedia.org/wiki/Digital_differential_analyzer_(graphics_algorithm))
         while (!ray.wallHit) {
-            // Jump to the next square in the grid, or in x or y-direction
+            // Jump to the next square in the grid, or in x or y-direction.
             if (ray.sideDistX < ray.sideDistY) {
                 ray.sideDistX += ray.deltaDistX;
                 ray.mapX += ray.stepX;
@@ -75,9 +74,9 @@ void RayCaster::RenderWalls(Player *player, int map[24][24]) {
         // Calculate the projected camera distance. Oblique distance results in the fish eye effect
         // (https://gamedev.stackexchange.com/questions/45295/raycasting-fisheye-effect-question?rq=1)
         if (ray.side == 0) {
-            ray.perpWallDist = fabs((ray.mapX - ray.rayPosX + (1 - ray.stepX) / 2) / ray.rayDirX);
+            ray.perpWallDist = fabs((ray.mapX - ray.rayPosX + (1.0 - ray.stepX) / 2) / ray.rayDirX);
         } else {
-            ray.perpWallDist = fabs((ray.mapY - ray.rayPosY + (1 - ray.stepY) / 2) / ray.rayDirY);
+            ray.perpWallDist = fabs((ray.mapY - ray.rayPosY + (1.0 - ray.stepY) / 2) / ray.rayDirY);
         }
 
         // Calculate the height of the line to draw on the screen

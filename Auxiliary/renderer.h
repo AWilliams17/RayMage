@@ -12,7 +12,7 @@
 typedef std::string string;
 
 typedef struct Color_RGBA {
-    Color_RGBA(const Uint8 R, const Uint8 G, const Uint8 B, const Uint8 A);
+    Color_RGBA(Uint8 R, Uint8 G, Uint8 B, Uint8 A);
     Uint8 R, G, B, A;
 };
 
@@ -38,7 +38,7 @@ typedef struct Colors {
 class SDLException : public std::exception {
     string m_msg;
 public:
-    SDLException(const std::string& operation_desc);
+    explicit SDLException(const std::string& operation_desc);
     virtual const char* what() const throw();
 };
 

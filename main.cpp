@@ -94,7 +94,7 @@ int main() {
                     player.posY -= player.dirY * movementSpeed;
                 }
             } else if (keyScanner.isKeyDown(SDLK_d)) {
-                //Rotate the direction AND plane vector
+                // Rotate the direction AND plane vector
                 double oldDirX = player.dirX;
                 player.dirX = player.dirX * cos(-rotationSpeed) - player.dirY * sin(-rotationSpeed);
                 player.dirY = oldDirX * sin(-rotationSpeed) + player.dirY * cos(-rotationSpeed);

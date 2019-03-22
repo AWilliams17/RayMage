@@ -11,7 +11,7 @@
 #include "../player.h"
 
 typedef struct Ray {
-    Ray(int SCREEN_WIDTH);
+    explicit Ray(int SCREEN_WIDTH);
     double cameraX;
     double rayDirX, rayDirY;
     double sideDistX, sideDistY;
